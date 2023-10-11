@@ -5,7 +5,7 @@
 
 [Vim setup](https://github.com/pixegami/terminal-profile)
 
-[*Keyboard change keys behaviare*](https://askubuntu.com/questions/1364352/remap-a-key-combination-to-another-combination-e-g-altgrc-ctrlc-under-wa/1364828#1364828)
+[# Keyboard change keys behaviare](https://askubuntu.com/questions/1364352/remap-a-key-combination-to-another-combination-e-g-altgrc-ctrlc-under-wa/1364828#1364828)
   Exactly like I-- T Y P E --it.
 
   *Python code
