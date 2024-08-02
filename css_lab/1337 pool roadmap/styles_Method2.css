@@ -1,0 +1,239 @@
+:root {
+    --blue: #0a1720;
+    --blueLighter: #53b7b9;
+    --gray: #666668;
+    --white: #f5f5f5;
+    --font: monospace;
+    --fontBold: 700;
+    --circleSize: 7rem;
+}
+
+*::before,
+*::after,
+* {
+    box-sizing: content-box;
+}
+
+
+body {
+    background-color: var(--blue);
+    color: var(--white);
+    font-family: var(--font), system-ui;
+    font-weight: var(--fontBold);
+    font-size: 1.125rem;
+    padding-bottom: 4rem;
+}
+
+
+
+.container {
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    gap: var(--circleSize);
+    flex-wrap: wrap;
+    animation: appear 2s ease alternate;
+}
+
+.circle-wrapper {
+    position: relative;
+    width: var(--circleSize);
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background: var(--blueLighter);
+    cursor: pointer;
+}
+
+.circle--text {
+    display: inline-block;
+    user-select: none;
+}
+
+
+.circle-wrapper:hover .circle--text:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    top: -5.9px;
+    left: -6.5px;
+    animation: spin 15s linear infinite;
+    z-index: 1;
+    outline: 3px dashed rgb(232, 252, 5);
+    border: 7px solid transparent;
+}
+
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.circle-wrapper:nth-child(even) {
+    margin-left: var(--circleSize);
+    bottom: -15px;
+}
+
+.circle-wrapper:nth-child(even)::before {
+    position: absolute;
+    content: "";
+    width: var(--circleSize);
+    height: calc((var(--circleSize) / 5) * 0.5);
+    background-color: var(--gray);
+    top: 0;
+    left: -50%;
+    transform: rotate(45deg);
+    z-index: -1;
+}
+
+.circle-wrapper:nth-child(odd) {
+    top: 15px;
+}
+
+.title {
+    text-align: center;
+    padding-bottom: 1rem;
+    margin-bottom: 5rem;
+    border-bottom: 3px solid rgb(232, 252, 5);
+}
+
+.circle-wrapper:nth-child(even)::after {
+    position: absolute;
+    content: "";
+    width: var(--circleSize);
+    height: calc((var(--circleSize) / 5) * 0.5);
+    background-color: var(--gray);
+    top: 100%;
+    left: -50%;
+    transform: rotate(-45deg);
+    z-index: -1;
+}
+
+.circle-wrapper:nth-child(even):last-child::after {
+    display: none;
+}
+
+.squares--wrapper {
+    display: flex;
+    gap: calc(var(--circleSize) / 2);
+    flex-direction: column;
+}
+
+.square-wrapper {
+    display: flex;
+    width: var(--circleSize);
+    aspect-ratio: 7/4;
+    background-color: var(--blueLighter);
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.square-wrapper::after {
+    position: absolute;
+    content: "";
+    width: var(--circleSize);
+    height: calc((var(--circleSize) / 5) * 0.5);
+    background-color: var(--gray);
+    bottom: -10px;
+    transform: rotate(90deg);
+    z-index: -1;
+}
+
+.square-wrapper:hover::before {
+    position: absolute;
+    content: "";
+    width: calc(var(--circleSize));
+    aspect-ratio: 7/4;
+    border-radius: 25px;
+    outline: 2px solid rgb(232, 252, 5);
+    z-index: 1;
+    animation: square-animation .27s alternate-reverse infinite;
+}
+
+@keyframes square-animation {
+    from {
+        border-radius: 25px;
+
+        border: 4px solid transparent;
+    }
+
+    to {
+        border-radius: 25px;
+        border: 5px dotted transparent;
+    }
+}
+
+.square-wrapper:last-child::after {
+    position: absolute;
+    content: "";
+    width: var(--circleSize);
+    height: calc((var(--circleSize) / 5) * 0.5);
+    background-color: var(--gray);
+    top: 50%;
+    left: 100%;
+    transform: rotate(0deg);
+    transform: translate(0, -50%);
+    z-index: -1;
+}
+
+.square-wrapper:last-child::after {
+    position: absolute;
+    content: "";
+    width: var(--circleSize);
+    height: calc((var(--circleSize) / 5) * 0.5);
+    background-color: var(--gray);
+    top: 50%;
+    left: 100%;
+    transform: rotate(0deg);
+    transform: translate(0, -50%);
+    z-index: -1;
+}
+
+@media (max-width: 800px) {
+    :root {
+        --circleSize: 4rem;
+    }
+
+    .container {
+        justify-content: center;
+        padding: 2rem;
+    }
+}
+
+.greeting-intro {
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    font-size: 3rem;
+    text-align: center;
+    animation: appear 2s ease alternate;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.hidden {
+    display: none;
+}
+
+h1 > span {
+    color: rgb(232, 252, 5);
+}

@@ -1,0 +1,139 @@
+:root {
+    --primary-color: #050c26;
+    --bg-color: #ffffff;
+    --gray-lighter: #b6b9c2;
+    --gray: #e4e7f0;
+    --gray-darker: #464850;
+    --font: "";
+    --font-code: "Fira Code";
+}
+
+html {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font), system-ui;
+    font-size: 1.125rem;
+    line-height: 1.6;
+    margin: 0;
+    background: var(--bg-color);
+    color: var(--primary-color);
+}
+
+*,
+::before,
+::after {
+    box-sizing: inherit;
+}
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#main-doc {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+#navbar {
+    flex: 25% 0 0;
+    height: 100vh;
+    border-right: 2px solid var(--gray-lighter);
+    position: sticky;
+    top: 0;
+    overflow: auto;
+}
+
+#navbar header {
+    padding: 2rem;
+    border-bottom: 2px solid var(--gray-lighter);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+#navbar a {
+    border-bottom: 2px solid var(--gray-lighter);
+    display: block;
+    padding-block: 1rem;
+    padding-left: 2rem;
+    color: var(--primary-color);
+}
+
+#navbar a:last-child {
+    border-bottom: 0;
+}
+
+#navbar a:hover {
+    border-left: 5px solid var(--gray-darker);
+    position: relative;
+    padding-left: calc(2rem - 5px);
+}
+
+#navbar a:visited {
+    color: var(--gray-darker);
+}
+
+.wrapper {
+    margin-inline: auto;
+    margin-top: 1rem;
+    max-width: 700px;
+    padding-bottom: 2rem;
+}
+
+.main-section header {
+    margin-bottom: 2rem;
+}
+
+.main-section p {
+    margin-bottom: 1.5rem;
+}
+
+.main-section li {
+    margin-bottom: 1rem;
+}
+
+
+.main-section pre {
+    background: var(--gray);
+    page-break-inside: avoid;
+    color: var(--gray-darker);
+    font-family: var(--font-code);
+    font-size: 15px;
+    max-width: 100%;
+    overflow: auto;
+    display: block;
+    /* word-wrap: break-word; */
+    padding: 1rem 2rem;
+    border-radius: 7px;
+    white-space: pre-line;
+}
+
+code {
+    font-family: var(--font-code);
+    font-size: 15px;
+    background-color: var(--gray);
+    color: var(--gray-darker);
+    padding-inline: .15rem;
+    line-height: 1.5rem;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+@media screen and (max-width: 900px) {
+    #main-doc {
+        display: block;
+        padding: 10%;
+    }
+
+    ul {
+        margin-left: 0;
+        padding-left: .3rem;
+    }
+
+    #navbar {
+        display: none;
+    }
+
+}

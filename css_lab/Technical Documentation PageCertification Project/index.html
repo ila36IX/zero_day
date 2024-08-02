@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <title>SQLAlchamy</title>
+</head>
+
+<body>
+    <main id="main-doc">
+        <div class="wrapper">
+            <section class="main-section" id="ORM">
+                <header>
+                    <h2>ORM</h2>
+                </header>
+                <p>
+                    Object Relational Mapping (ORM) is a technique used in creating a "bridge" between object-oriented
+                    programs and, in most cases, relational databases.
+                </p>
+                <p>
+                    An ORM tool is software designed to help OOP developers interact with relational databases. So
+                    instead
+                    of creating your own ORM software from scratch, you can make use of these tools.
+                </p>
+            </section>
+            <section class="main-section" id="Making_the_engine">
+                <header>
+                    <h2>Making the engine</h2>
+                </header>
+                <p><code class="code_keyword">create_engine</code> is a function used to create a connection to the
+                    database. It takes a database
+                    URL as an
+                    argument and returns an Engine instance. The Engine represents the core interface to the database,
+                    providing methods for executing SQL statements and managing connections.
+                </p>
+                <pre>
+                        <code>from sqlalchemy import create_engine
+                            engine = create_engine('URL')</code>
+                            </pre>
+            </section>
+            <section class="main-section" id="Database_URL">
+                <header>
+                    <h2>Database URL</h2>
+                </header>
+                <p>
+                    URL is just a string formatting providing a way to give the instance engine the data that will
+                    use
+                    to
+                    connect to Database, and it is as simple as this:
+                </p>
+                <pre>
+                <code>dialect+driver://username:password@host:port/database</code>
+            </pre>
+                <ul>
+                    <li>
+                        <strong>Dialect :</strong> Name of the SQLAlchemy dialect, a name such as
+                        <code>sqlite</code>,
+                        <code>mysql</code>, <code>postgresql</code>,
+                        <code>oracle</code>, or <code>mssql</code>.
+                    </li>
+                    <li>
+                        <strong>Driver :</strong> Usually it's optional as alchemy tries its best to include the
+                        default
+                        DBAPI (if it available) which is typically the most widely known driver available for that
+                        backend. in
+                        my case using the default wasn't working because it wasn't available in my system, so the
+                        solution
+                        was one of those:
+                    </li>
+                    <ul>
+                        <li>
+                            <strong>Specify a different driver :</strong> an alternative driver may already be
+                            installed
+                            on your
+                            system but isn't the default one used by SQLAlchemy. <code>mysqlconnector</code> driver
+                            is
+                            in my
+                            system but wasn't the default one that SQLAlchemy using, so putting it in the URL does
+                            the
+                            trick.
+                        </li>
+                        <li>
+                            Download the required file for the default driver to work, I used this
+                            <a
+                                href="https://askubuntu.com/questions/1321141/unable-to-install-mysqlclient-on-ubuntu-20-10">
+                                link</a>
+                            to download the necessary files for the SQLAlchamy default required driver.
+                        </li>
+                    </ul>
+                </ul>
+            </section>
+            <section class="main-section" id="Executing_a_direct_a_query">
+                <header>
+                    <h2>Executing a direct a query</h2>
+                </header>
+                <pre>
+                            <code>conn = engine.connect()
+                                result = conn.execute("select * from table")
+                                print result.fetchall()
+                                conn.close()</code>
+                                </pre>
+            </section>
+            <section class="main-section" id="Table_Mapping_with_SQLAlchemy">
+                <header>
+                    <h2>Table Mapping with SQLAlchemy</h2>
+                </header>
+                <p>
+                    In Declarative, we create classes that directly map to database tables. These classes are
+                    based
+                    on a
+                    special <code>base</code> class that keeps track of our classes and tables. We typically
+                    create
+                    just
+                    one
+                    instance of this base class in a module that we import across our application.
+                </p>
+                <p>
+                    To create this base class, we simply use the <code>declarative_base()</code> function. This
+                    base
+                    class helps us
+                    manage our classes and tables smoothly.
+                </p>
+                <pre>
+                    <code>from sqlalchemy.orm import declarative_base
+                        Base = declarative_base()</code>
+                </pre>
+                <p>Then we can use <code>Base</code> instance as blueprint to define a class that inherits from it
+                    and
+                    represents the
+                    table structure. After you can use the <code>create_all()</code> method to create the table in
+                    the
+                    database:
+                </p>
+                <pre>
+                <code>from sqlalchemy import Column, Integer, String
+
+                    class User(Base):
+                        __tablename__ = 'users'  # Table name
+
+                        id = Column(Integer, primary_key=True, autoincrement=True)
+                        name = Column(String(50), nullable=False, unique=True)
+                        age = Column(Integer, ForeignKey("city_table.id"), default=18)
+
+                    Base.metadata.create_all(engine)</code>
+            </pre>
+                <p>Here, we create an SQLite database engine and use <code>create_all()</code> to create the table
+                    defined
+                    by our <code>User</code> class.
+                </p>
+            </section>
+            <section class="main-section" id="Connection_to_the_database">
+                <header>
+                    <h2>Connection to the database</h2>
+                </header>
+                <p><code>Session</code> is a class that represents a connection to the database and provides a
+                    context
+                    for
+                    making
+                    changes to the database. It acts as a middleman between your Python code and the database. You
+                    use a
+                    session to query the database, insert, update, or delete records, and manage transactions.
+                    Sessions
+                    keep
+                    track of objects loaded from the database and changes made to those objects, allowing you to
+                    commit
+                    or
+                    rollback changes as needed.
+                </p>
+                <pre>
+                <code>from sqlalchemy.orm import sessionmaker
+                    Session = sessionmaker(bind=engine)
+                    
+                    session = Session()</code>
+            </pre>
+                <p>Every change that have been made is considering in one of those state:
+                </p>
+                <ul>
+                    <li><strong>Transient :</strong> Change have been made, but not in the session, or in the
+                        database
+                    </li>
+                    <li><strong>Pending :</strong> Change is new currently in the session, but wasn't flushed to
+                        database
+                    </li>
+                    <pre>
+                <code>session.add(users_instances)</code>
+            </pre>
+                    <li><strong>Persistent :</strong> An instance which is present in the session and has a record
+                        in
+                        the
+                        database</li>
+                    <pre>
+                        <code>session.commit()
+                            # OR by querying the database for existing instances</code>
+                    </pre>
+                </ul>
+                <p>Note!</p>
+                <pre>
+                <code># pending objects recently added to the Session
+                    session.new
+                    
+                    # persistent objects which currently have changes detected
+                    # (this collection is now created on the fly each time the property is called)
+                    session.dirty
+                    
+                    # persistent objects that have been marked as deleted via session.delete(obj)
+                    session.deleted
+                    
+                    # dictionary of all persistent objects, keyed on their
+                    # identity key
+                    session.identity_map</code>
+            </pre>
+
+            </section>
+            <section class="main-section" id="Adding_one_record">
+                <header>
+                    <h2>Adding one record</h2>
+                </header>
+                <pre>
+                    <code>ed_user = User(name='ed', fullname='Ed Jones', nickname='edsnickname')
+                        session.add(ed_user)
+                        session.commit()</code>
+                </pre>
+            </section>
+            <section class="main-section" id="Adding_multiple_records">
+                <header>
+                    <h2>Adding multiple records</h2>
+                </header>
+                <pre><code>session.add_all([
+                User(name='wendy', fullname='Wendy Williams', nickname='windy'),
+                User(name='mary', fullname='Mary Contrary', nickname='mary'),
+                User(name='fred', fullname='Fred Flintstone', nickname='freddy')])</code></pre>
+            </section>
+            <section class="main-section" id="Querying_one">
+                <header>
+                    <h2>Querying one</h2>
+                </header>
+                <ul>
+                    <li><code>Query.one()</code></li>
+                    <ul>
+                        <li><code>MultipleResultsFound</code> if the number of rows was more than 1</li>
+                        <li><code>NoResultFound</code> if no rows were found</li>
+                        <li>Returns the sole result row (as tuple)</li>
+                    </ul>
+                    <li><code>Query.first()</code> executes the query with LIMIT 1</li>
+                    <ul>
+                        <li>Returns the result row as tuple</li>
+                        <li><code>None</code> if no rows were found</li>
+                    </ul>
+                    <li><code>Query.scalar()</code></li>
+                    <ul>
+                        <li>Raises <code>MultipleResultsFound</code> if the number of rows was more than 1</li>
+                        <li>Returns <code>None</code> If no rows were found</li>
+                        <li>Returns the first column of the sole result row</li>
+                    </ul>
+                </ul>
+            </section>
+            <section class="main-section" id="Querying_all">
+                <header>
+                    <h2>Querying all</h2>
+                </header>
+                <pre>
+                <code>session.query(User, User.name).all()
+                    session.query(User, User.name).all()[5:69] # [limit:offset]</code>
+            </pre>
+                <p>Order by a column</p>
+                <pre>
+                <code>session.query(User).order_by(User.id)</code>
+            </pre>
+                <p>Custom quering:</p>
+                <pre>
+                <code>for name, in session.query(User.name).filter_by(fullname='Ed Jones'):
+
+                    # Or filter
+                    
+                    session.query(User).filter(User.name=='ed')
+                    session.query(User).filter(User.name.in_(['ed', 'fakeuser']))
+                    session.query(User).filter(User.name=='ed').filter(User.fullname=='Ed Jones')
+                    
+                    query.filter(User.name == 'ed')
+                    query.filter(User.name != 'ed')
+                    query.filter(User.name.like('ed%'))
+                    query.filter(User.name.ilike('ed%')) # case-insensitive 
+                    
+                    from sqlalchemy import or_, and_
+                    query.filter(or_(User.name == 'ed', User.name == 'wendy'))
+                    query.filter(and_(User.name == 'ed', User.name == 'wendy'))</code>
+            </pre>
+                <pre>
+                <code>session.query(User.name, User.fullname)  
+                    # [("ali", "ali jbari"), ("test", "testing")]</code>
+            </pre>
+                <pre>
+                <code># SELECT name as name_label from users;
+
+                    for row in session.query(User.name.label('name_label')).all():
+                        print(row.name_label)</code>
+            </pre>
+                <pre>
+                <code>session.query(User).from_statement (
+                    text("SELECT * FROM users where name=:name")
+                ).params(name='ed').all()</code>
+            </pre>
+                <p>Count and group trick</p>
+                <pre>
+                <code>session.query(func.count(User.name), User.name).group_by(User.name).all()</code>
+            </pre>
+            </section>
+        </div>
+        <nav id="navbar">
+            <header>SQLAlchemy</header>
+            <a class="nav-link" href="#ORM">ORM</a>
+            <a class="nav-link" href="#Making_the_engine">Making the engine</a>
+            <a class="nav-link" href="#Database_URL">Database URL</a>
+            <a class="nav-link" href="#Executing_a_direct_a_query">Executing a direct a query</a>
+            <a class="nav-link" href="#Table_Mapping_with_SQLAlchemy">Table Mapping with SQLAlchemy</a>
+            <a class="nav-link" href="#Connection_to_the_database">Connection to the database</a>
+            <a class="nav-link" href="#Adding_one_record">Adding one record</a>
+            <a class="nav-link" href="#Adding_multiple_records">Adding multiple records</a>
+            <a class="nav-link" href="#Querying_one">Querying one</a>
+            <a class="nav-link" href="#Querying_all">Querying all</a>
+        </nav>
+    </main>
+</body>
+
+</html>

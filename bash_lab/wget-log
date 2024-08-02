@@ -1,0 +1,6 @@
+--2024-04-23 21:07:41--  https://production-clubhouse-replay-audio.s3.amazonaws.com/2081975867/2081975867-output6.ts?X-Amz-Algorithm=AWS4-HMAC-SHA256
+Resolving production-clubhouse-replay-audio.s3.amazonaws.com (production-clubhouse-replay-audio.s3.amazonaws.com)... 3.5.25.136, 3.5.11.154, 52.217.64.44, ...
+Connecting to production-clubhouse-replay-audio.s3.amazonaws.com (production-clubhouse-replay-audio.s3.amazonaws.com)|3.5.25.136|:443... connected.
+HTTP request sent, awaiting response... 400 Bad Request
+2024-04-23 21:07:42 ERROR 400: Bad Request.
+

@@ -1,0 +1,9 @@
+#include <stdio.h>
+
+int main(int argument_count, char **argument_vectory)
+{
+	if (argument_count >= 3)
+	printf("%s\n", argument_vectory[2]);
+	return (0);
+}
+

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles_Method2.css">
+    <title>Roadmap</title>
+</head>
+
+<body>
+    <div class="greeting-intro">
+        <h1>Do you accecpt the Challenge?</h1>
+    </div>
+    <div class="next-message hidden">
+        <h1>Ok! let's do it!</h1>
+    </div>
+<div>
+    <h1 class="title">THE <span>1337</span> ROADMAP :)</h1>
+    <div class="container hidden">
+        <div class="squares--wrapper">
+            <div class="square-wrapper btn"><span class="square--text">C0</span></div>
+            <div class="square-wrapper"><span class="square--text">C0</span></div>
+        </div>
+        <div class="circles--wrapper">
+            <div class="circle-wrapper"><span class="circle--text">C0</span></div>
+            <div class="circle-wrapper"><span class="circle--text">C0</span></div>
+            <div class="circle-wrapper"><span class="circle--text">C0</span></div>
+            <div class="circle-wrapper"><span class="circle--text">C0</span></div>
+            <div class="circle-wrapper"><span class="circle--text">C0</span></div>
+        </div>
+        <div class="circles--wrapper">
+            <div class="circle-wrapper"><span class="circle--text">C0</span></div>
+            <div class="circle-wrapper"><span class="circle--text">C0</span></div>
+            <div class="circle-wrapper"><span class="circle--text">C0</span></div>
+            <div class="circle-wrapper"><span class="circle--text">C0</span></div>
+            <div class="circle-wrapper"><span class="circle--text">C0</span></div>
+            <div class="circle-wrapper"><span class="circle--text">C0</span></div>
+            <div class="circle-wrapper"><span class="circle--text">C0</span></div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+    const message = document.querySelector(".greeting-intro");
+    const roadmap = document.querySelector(".container");
+    setTimeout(() => {
+        message.classList.add("hidden");
+        roadmap.classList.remove("hidden");
+    }, 3000);
+</script>
+
+</html>
